@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<body>
+<u> Assignment Part A: Task 1 Generator</u> <br />
+<p id="gen1"></p>
+<p id="gen2"></p>
+<button onclick="border()">Border</button>
+<button onclick="noBorder()">No Border</button>
+<button onclick="barrel()">Generate Barrel</button>
+<button onclick="container()">Generate Container</button>
+</br>
+<button onclick="copy()">Copy world file to clipboard</button>
+<script>
+function border() {
+  document.getElementById("borders").innerHTML = "border(pose [ 0.000 -2.500 0.000 90.000 ] size [0.100 5.000 0.500])\nborder(pose [ 0.000 2.500 0.000 90.000 ] size [0.100 5.000 0.500])\nborder( pose [ 2.500 0.000 0.000 0.000 ] size [0.100 5.000 0.500])\nborder( pose [ -2.500 0.000 0.000 0.000 ] size [0.100 5.000 0.500])";
+  document.getElementById("gen1").innerHTML = "Generated with borders"
+}
+function noBorder() {
+  document.getElementById("gen1").innerHTML = "Generated with no borders"
+  document.getElementById("borders").innerHTML = "";
+}
+function barrel() {
+  radius = (16+2*Math.floor(Math.random() * 18))/100;
+  diameter = radius*2;
+  output = "circle(\n"
+  output += "pose [0 0 0 0]\n"
+  output += "size ["+diameter+" "+diameter+" 0.500]\n"
+  output += ")\n"
+  document.getElementById("objects").innerHTML = output;
+  document.getElementById("gen2").innerHTML = "Barrel with radius: "+radius;
+
+}
+function container() {
+  width = (30+2*Math.floor(Math.random() * 36))/100;
+  length = (30+2*Math.floor(Math.random() * 36))/100;
+  output = "rectangle(\n"
+  output += "pose [0 0 0 45]\n"
+  output += "size ["+width+" "+length+" 0.500]\n"
+  output += ")\n"
+  document.getElementById("objects").innerHTML = output;
+  document.getElementById("gen2").innerHTML = "Container with width: "+width+ " length: "+length;
+}
+function copy() {
+   var range = document.createRange();
+     range.selectNode(document.getElementById("worldfile"));
+     window.getSelection().addRange(range);
+     document.execCommand("copy");
+     alert("text copied") 
+}
+</script>
+<br />
+<br />
+<pre id="worldfile" > 
+# milliseconds per update step
+interval_sim 50
+resolution 0.001
+
+window
+(
+  size [ 400 400 ]
+  # camera options
+  center [ 0 0 ]
+  rotate [ 0 0 ]
+  scale 60
+
+)
+
+define border model
+(
+  color "red"
+)
+
+define marker model
+(
+  size [0.1 0.1 0.500]
+  color "red"
+)
+
+define rectangle model
+(  
+  color "random"
+)
+
+define circle model
+(
+  bitmap "circle.png"
+  color "random"
+)
+
+define myLaser ranger
+(
+  sensor( range [ 0.02 5.6 ] fov 180.0 samples 512 )
+  size [0.100 0.100 0.100]
+  color "black"
+  block(
+	points 4
+	point[0] [0 0]
+	point[1] [0.1 0]
+	point[2] [0.1 0.1]
+	point[3] [0 0.1]
+	z [0 0.1]
+	)
+)
+
+define myRobot position
+(
+    size [0.460 0.460 0.250]
+    drive "diff"
+    myLaser(pose [ 0.280 0.000 -0.200 0.000 ])  
+)
+
+# throw in a robot
+myRobot( pose [ 0.000 -1.5 0.000 90.000 ] origin [ 0.000 0.000 0.000 90.000 ] name "bob" color "random")
+
+<div id="borders"></div>
+<div id="objects"></div>
+</pre>
+
+
+</body>
+</html> 
