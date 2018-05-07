@@ -10,6 +10,8 @@
 <button onclick="container()">Generate Container</button>
 </br>
 <button onclick="copy()">Copy world file to clipboard</button>
+ <br />
+Note: some browsers will not work and will need to manually copy and paste
 <script>
 function border() {
   document.getElementById("borders").innerHTML = "border(pose [ 0.000 -2.500 0.000 90.000 ] size [0.100 5.000 0.500])\nborder(pose [ 0.000 2.500 0.000 90.000 ] size [0.100 5.000 0.500])\nborder( pose [ 2.500 0.000 0.000 0.000 ] size [0.100 5.000 0.500])\nborder( pose [ -2.500 0.000 0.000 0.000 ] size [0.100 5.000 0.500])";
@@ -42,10 +44,10 @@ function container() {
 }
 function copy() {
    var range = document.createRange();
-     range.selectNode(document.getElementById("worldfile"));
-     window.getSelection().addRange(range);
-     document.execCommand("copy");
-     alert("text copied") 
+   range.selectNode(document.getElementById("worldfile"));
+   window.getSelection().addRange(range);
+   document.execCommand("copy");
+   alert("text copied if highlighted") 
 }
 </script>
 <br />
